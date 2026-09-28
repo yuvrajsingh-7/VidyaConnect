@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>VidyaConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --ink: #19181D;
+      --muted: #75727E;
+      --line: #EDEBF3;
+      --faint: #F7F6FB;
+      --pu: #C9BFF2;
+      --pu-i: #5B4FA3;
+      --pu-b: #F3F0FD;
+      --bl: #B9E0F2;
+      --bl-i: #2E6E90;
+      --bl-b: #EFF8FC;
+      --gr: #C3E8D1;
+      --gr-i: #2F7A52;
+      --gr-b: #F0FAF3;
+      --br: #E7D3B4;
+      --br-i: #8A6635;
+      --br-b: #FBF4E8;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--white);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      display: flex;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+      color: inherit
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 460px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative
+    }
+
+    header.top {
+      padding: calc(env(safe-area-inset-top, 0px) + 18px) 22px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    header.top h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      margin: 0
+    }
+
+    header.top .sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 2px 0 0
+    }
+
+    main {
+      padding: 6px 22px 112px;
+      flex: 1
+    }
+
+    .screen {
+      display: none
+    }
+
+    .screen.active {
+      display: block;
+      animation: rise .25s ease
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .screen.active {
+        animation: none
+      }
+
+      * {
+        transition: none !important
+      }
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(5px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    h2.h {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 24px 0 10px
+    }
+
+    h2.h:first-child {
+      margin-top: 12px
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 10px
+    }
+
+    .card.t-p {
+      border-left: 3px solid var(--pu)
+    }
+
+    .card.t-b {
+      border-left: 3px solid var(--bl)
+    }
+
+    .card.t-g {
+      border-left: 3px solid var(--gr)
+    }
+
+    .card.t-n {
+      border-left: 3px solid var(--br)
+    }
+
+    p {
+      margin: 0
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px
+    }
+
+    .greet {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.02em
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: none;
+      border-radius: 100px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .btn:hover {
+      border-color: var(--pu-i)
+    }
+
+    .btn.dk {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink)
+    }
+
+    .btn.sm {
+      padding: 5px 11px;
+      font-size: 12px
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--pu-i);
+      outline-offset: 2px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px
+    }
+
+    .stat b {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.02em
+    }
+
+    .stat span {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .field {
+      margin-bottom: 13px
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 5px
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 14px;
+      background: var(--faint)
+    }
+
+    .field input:focus,
+    .field select:focus {
+      background: #fff
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .primary {
+      width: 100%;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .primary:hover {
+      opacity: .9
+    }
+
+    .chipsrow {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 0 8px;
+      scrollbar-width: none
+    }
+
+    .fchip {
+      flex-shrink: 0;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 100px;
+      padding: 7px 13px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted)
+    }
+
+    .fchip[aria-pressed="true"] {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink)
+    }
+
+    .gc {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      border-radius: 100px;
+      padding: 3px 9px
+    }
+
+    .g-p {
+      background: var(--pu-b);
+      color: var(--pu-i)
+    }
+
+    .g-b {
+      background: var(--bl-b);
+      color: var(--bl-i)
+    }
+
+    .g-g {
+      background: var(--gr-b);
+      color: var(--gr-i)
+    }
+
+    .g-n {
+      background: var(--br-b);
+      color: var(--br-i)
+    }
+
+    details.sc {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      margin-bottom: 11px;
+      overflow: hidden
+    }
+
+    details.sc[open] {
+      border-color: var(--pu)
+    }
+
+    details.sc summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 15px
+    }
+
+    details.sc summary::-webkit-details-marker {
+      display: none
+    }
+
+    .sh {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px
+    }
+
+    .sn {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      margin: 8px 0 4px;
+      letter-spacing: -.01em
+    }
+
+    .amt {
+      display: block;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.45
+    }
+
+    .ss {
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 100px;
+      padding: 4px 10px;
+      white-space: nowrap
+    }
+
+    .st-yes {
+      background: var(--gr-b);
+      color: var(--gr-i)
+    }
+
+    .st-no {
+      background: var(--br-b);
+      color: var(--br-i)
+    }
+
+    .st-unk {
+      background: var(--pu-b);
+      color: var(--pu-i)
+    }
+
+    .sb {
+      padding: 0 15px 15px;
+      border-top: 1px solid var(--line)
+    }
+
+    .sb p.d {
+      font-size: 13.5px;
+      line-height: 1.55;
+      margin: 13px 0 10px
+    }
+
+    .why {
+      margin: 0 0 10px;
+      padding: 0;
+      list-style: none
+    }
+
+    .why li {
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 9px 11px;
+      border-radius: 9px;
+      margin-bottom: 6px
+    }
+
+    .why.ok li {
+      background: var(--gr-b);
+      color: var(--gr-i)
+    }
+
+    .why.no li {
+      background: var(--br-b);
+      color: var(--br-i)
+    }
+
+    .why.unk li {
+      background: var(--pu-b);
+      color: var(--pu-i)
+    }
+
+    .note {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 10px
+    }
+
+    .ready {
+      font-size: 12.5px;
+      margin-bottom: 12px
+    }
+
+    .bar {
+      height: 4px;
+      background: var(--line);
+      border-radius: 4px;
+      margin-top: 6px;
+      overflow: hidden
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--gr-i);
+      border-radius: 4px;
+      transition: width .3s ease
+    }
+
+    .acts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    a.official,
+    a.ghost {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 100px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer
+    }
+
+    a.official {
+      background: var(--gr-i);
+      color: #fff
+    }
+
+    a.official:hover {
+      opacity: .88
+    }
+
+    a.ghost {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    a.ghost:hover {
+      border-color: var(--pu-i)
+    }
+
+    .doc {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 11px 13px;
+      margin-bottom: 8px
+    }
+
+    .doc .di {
+      flex: 1;
+      min-width: 0
+    }
+
+    .doc .dn {
+      font-size: 13.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .doc .dm {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .ib {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .ib:hover {
+      color: #B5442E
+    }
+
+    .up {
+      border: 1.5px dashed var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px
+    }
+
+    .up .row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .uploadbtn {
+      display: inline-block;
+      background: var(--pu-b);
+      color: var(--pu-i);
+      border: 1px solid var(--pu);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .uploadbtn input {
+      display: none
+    }
+
+    .uploadbtn:focus-within {
+      outline: 2px solid var(--pu-i);
+      outline-offset: 2px
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 10px
+    }
+
+    .check span {
+      font-size: 12px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      background: var(--faint);
+      color: var(--muted)
+    }
+
+    .check span.ok {
+      background: var(--gr-b);
+      color: var(--gr-i)
+    }
+
+    .dots {
+      display: flex;
+      gap: 5px;
+      margin: 10px 0
+    }
+
+    .dots i {
+      flex: 1;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--line)
+    }
+
+    .dots i.on {
+      background: var(--pu-i)
+    }
+
+    .cb {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 10px
+    }
+
+    .cb input {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--pu-i)
+    }
+
+    .bubble {
+      max-width: 86%;
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      white-space: pre-wrap
+    }
+
+    .bubble.bot {
+      background: var(--faint);
+      border-bottom-left-radius: 4px
+    }
+
+    .bubble.user {
+      background: var(--ink);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      margin-left: auto
+    }
+
+    .chat-wrap {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 250px)
+    }
+
+    .qchips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 14px
+    }
+
+    .qchip {
+      font-size: 12.5px;
+      padding: 8px 13px;
+      border-radius: 100px;
+      background: #fff;
+      border: 1px solid var(--line);
+      cursor: pointer
+    }
+
+    .qchip:hover {
+      border-color: var(--pu-i)
+    }
+
+    .bar-in {
+      position: fixed;
+      bottom: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 460px;
+      background: #fff;
+      padding: 8px 22px 12px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--line)
+    }
+
+    .bar-in.hidden {
+      display: none
+    }
+
+    .bar-in input {
+      flex: 1;
+      border: 1px solid var(--line);
+      background: var(--faint);
+      border-radius: 100px;
+      padding: 11px 16px;
+      font-size: 13.5px
+    }
+
+    .send {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0
+    }
+
+    .send svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff
+    }
+
+    nav.tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 460px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      display: flex;
+      padding: 8px 6px calc(env(safe-area-inset-bottom, 0px) + 8px)
+    }
+
+    .nb {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      padding: 6px 2px;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 600
+    }
+
+    .nb svg {
+      width: 19px;
+      height: 19px;
+      stroke: var(--muted)
+    }
+
+    .nb[aria-current="true"] {
+      color: var(--ink)
+    }
+
+    .nb[aria-current="true"] svg {
+      stroke: var(--ink)
+    }
+
+    svg {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 150px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 100px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 20;
+      max-width: 90%;
+      text-align: center
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px)
+    }
+
+    .banner {
+      display: none;
+      font-size: 12px;
+      background: var(--br-b);
+      color: var(--br-i);
+      border-radius: 10px;
+      padding: 9px 12px;
+      margin: 8px 0 0;
+      line-height: 1.5
+    }
+
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap
+    }
+
+    .empty {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      padding: 18px 0
+    }
+  </style>
+</head>
+
+<body>
+  <div class="phone" id="phone">
+    <header class="top">
+      <div>
+        <h1>VidyaConnect</h1>
+        <p class="sub">Every student. Every scheme. One place.</p>
+      </div>
+      <button class="btn sm" id="zoomBtn" aria-label="Change text size">Aa</button>
+    </header>
+    <main>
+
+      <section id="s-home" class="screen active" aria-labelledby="h-home">
+        <h2 id="h-home" class="sr">Home</h2>
+        <div class="hero">
+          <div>
+            <p class="greet" id="hName">Namaste</p>
+            <p class="small" id="hSub">Add your details to see schemes that fit you</p>
+          </div><button class="btn" id="editBtn">Edit</button>
+        </div>
+        <div class="grid">
+          <div class="stat"><b id="stYes">–</b><span>likely to qualify</span></div>
+          <div class="stat"><b id="stUnk">–</b><span>need a detail from you</span></div>
+        </div>
+        <div id="topMatches"></div>
+
+        <form id="pForm" style="display:none;margin-top:20px" novalidate>
+          <h2 class="h">Your details</h2>
+          <div class="field"><label for="fName">Name</label><input id="fName" autocomplete="name"
+              placeholder="Your name"></div>
+          <div class="field"><label for="fStage">Current education level</label><select id="fStage">
+              <option value="">Select…</option>
+              <option value="1-8">Class 1–8</option>
+              <option value="9-10">Class 9–10</option>
+              <option value="11-12">Class 11–12</option>
+              <option value="ug">Undergraduate</option>
+              <option value="pg">Postgraduate</option>
+              <option value="phd">M.Phil / PhD</option>
+            </select></div>
+          <div class="two">
+            <div class="field"><label for="fInc">Family income (₹ lakh/yr)</label><input id="fInc" type="number" min="0"
+                step="0.1" inputmode="decimal" placeholder="e.g. 1.8"></div>
+            <div class="field"><label for="fMarks">Last exam marks (%)</label><input id="fMarks" type="number" min="0"
+                max="100" inputmode="decimal" placeholder="e.g. 72"></div>
+          </div>
+          <p class="small" style="margin:2px 0 12px">The next three are optional. They are used only to match rules the
+            government has set for each scheme. “Prefer not to say” is always fine.</p>
+          <div class="field"><label for="fCat">Category</label><select id="fCat">
+              <option value="skip">Prefer not to say</option>
+              <option value="general">General</option>
+              <option value="ews">EWS</option>
+              <option value="sc">Scheduled Caste (SC)</option>
+              <option value="st">Scheduled Tribe (ST)</option>
+              <option value="pvtg">PVTG</option>
+              <option value="obc">OBC / EBC / DNT</option>
+            </select></div>
+          <div class="two">
+            <div class="field"><label for="fMin">Notified minority community</label><select id="fMin">
+                <option value="skip">Prefer not to say</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select></div>
+            <div class="field"><label for="fDis">Disability 40%+ (certified)</label><select id="fDis">
+                <option value="skip">Prefer not to say</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select></div>
+          </div>
+          <button class="primary" type="submit">Save details</button>
+        </form>
+
+        <h2 class="h">Built for everyone</h2>
+        <div class="card t-g">
+          <p style="font-size:13px;line-height:1.55">VidyaConnect lists every scheme, whoever you are. Eligibility rules
+            are set by the government — the app only reads them out honestly and never hides a scheme from you. If a
+            result looks wrong, you can always open the official portal directly.</p>
+        </div>
+        <div class="card t-p">
+          <p style="font-size:13px;line-height:1.55;margin-bottom:10px">Also check scholarships run by your own State.
+          </p><a class="ghost" href="https://www.myscheme.gov.in/" target="_blank" rel="noopener noreferrer">Search
+            state schemes on myScheme ↗</a>
+        </div>
+        <p class="small">Scheme figures come from government sources and change every year — always confirm on the
+          official portal before applying.</p>
+      </section>
+
+      <section id="s-schemes" class="screen" aria-labelledby="h-sch">
+        <h2 id="h-sch" class="h">Scholarships</h2>
+        <div class="chipsrow" role="group" aria-label="Filter schemes" id="filters"></div>
+        <div id="schList"></div>
+      </section>
+
+      <section id="s-track" class="screen" aria-labelledby="h-trk">
+        <h2 id="h-trk" class="h">Your applications</h2>
+        <p class="small" style="margin-bottom:12px">Track where you are on each official portal. You update the status
+          yourself — this app can’t read the government portals.</p>
+        <div id="cautionBox"></div>
+        <div id="trkList"></div>
+        <a class="ghost" href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer"
+          style="margin-top:6px">Check official status on NSP ↗</a>
+      </section>
+
+      <section id="s-wallet" class="screen" aria-labelledby="h-wal">
+        <h2 id="h-wal" class="h">Document wallet</h2>
+        <div class="up">
+          <p class="small">Upload once, reuse for every scheme. Prototype storage — please don’t upload real Aadhaar or
+            ID files here.</p>
+          <div class="row"><label class="sr" for="dType">Document type</label><select id="dType" class="btn"
+              style="padding:8px 10px"></select>
+            <label class="uploadbtn" id="upLbl">Choose file<input id="fileIn" type="file" accept="image/*,.pdf"
+                aria-label="Choose a document to upload"></label>
+          </div>
+        </div>
+        <div id="docList"></div>
+        <div class="check" id="docCheck"></div>
+
+        <h2 class="h">Bank account for DBT</h2>
+        <div class="card t-b" id="bankCard"></div>
+        <form id="bForm" novalidate style="display:none">
+          <div class="field"><label for="bBank">Bank</label><select id="bBank"></select></div>
+          <div class="field"><label for="bHolder">Account holder name</label><input id="bHolder"
+              placeholder="As on passbook"></div>
+          <div class="two">
+            <div class="field"><label for="bIfsc">IFSC</label><input id="bIfsc" placeholder="SBIN0001234" maxlength="11"
+                autocapitalize="characters"></div>
+            <div class="field"><label for="bLast">Last 4 digits of account</label><input id="bLast" inputmode="numeric"
+                maxlength="4" placeholder="1234"></div>
+          </div>
+          <label class="cb"><input type="checkbox" id="bOwn"><span>The account is in my own name</span></label>
+          <label class="cb"><input type="checkbox" id="bSeed"><span>My Aadhaar is seeded with this account for
+              DBT</span></label>
+          <button class="primary" type="submit">Save bank details</button>
+        </form>
+      </section>
+
+      <section id="s-chat" class="screen" aria-labelledby="h-chat">
+        <h2 id="h-chat" class="sr">JAGO assistant</h2>
+        <div class="chat-wrap" id="chatLog">
+          <div class="bubble bot">Namaste! I’m JAGO. Ask me about any scheme, documents or how to apply — in English,
+            हिंदी or another language you prefer.</div>
+          <div class="qchips" id="qchips"></div>
+          <p class="small">Answers are AI-generated. Confirm details on the official portal.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="bar-in hidden" id="chatBar"><input id="chatIn" placeholder="Ask about a scheme…"
+        aria-label="Message JAGO"><button class="send" id="sendBtn" aria-label="Send"><svg viewBox="0 0 24 24">
+          <path d="m22 2-7 20-4-9-9-4Z" />
+        </svg></button></div>
+
+    <nav class="tabbar" aria-label="Main">
+      <button class="nb" data-s="home" aria-current="true"><svg viewBox="0 0 24 24">
+          <path d="m3 11 9-8 9 8" />
+          <path d="M5 10v10h14V10" />
+        </svg>Home</button>
+      <button class="nb" data-s="schemes" aria-current="false"><svg viewBox="0 0 24 24">
+          <path d="M12 3 2 8l10 5 10-5-10-5Z" />
+          <path d="M6 10.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-5.5" />
+        </svg>Schemes</button>
+      <button class="nb" data-s="track" aria-current="false"><svg viewBox="0 0 24 24">
+          <path d="M9 11l3 3 8-8" />
+          <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" />
+        </svg>Track</button>
+      <button class="nb" data-s="wallet" aria-current="false"><svg viewBox="0 0 24 24">
+          <rect x="3" y="6" width="18" height="14" rx="2" />
+          <path d="M3 10h18M16 15h2" />
+        </svg>Wallet</button>
+      <button class="nb" data-s="chat" aria-current="false"><svg viewBox="0 0 24 24">
+          <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1-5.5A8.5 8.5 0 1 1 21 11.5Z" />
+        </svg>JAGO</button>
+    </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+    const STAGES = {'1-8': 'Class 1–8', '9-10': 'Class 9–10', '11-12': 'Class 11–12', ug: 'Undergraduate', pg: 'Postgraduate', phd: 'M.Phil / PhD'};
+    const CATS = {general: 'General', ews: 'EWS', sc: 'SC', st: 'ST', pvtg: 'PVTG', obc: 'OBC / EBC / DNT'};
+    const DOCT = {aadhaar: 'Aadhaar', category: 'Category certificate', income: 'Income certificate', marks: 'Marksheet', bank: 'Bank passbook', bonafide: 'Admission / bonafide', disability: 'Disability certificate', domicile: 'Domicile certificate', other: 'Other'};
+    const GRP = {mota: ['Tribal Affairs', 'p'], sj: ['Social Justice', 'b'], mm: ['Minority Affairs', 'g'], edu: ['Education', 'n'], dw: ['Disability Affairs', 'p']};
+    const NSP = 'https://scholarships.gov.in/';
+    const D = (...x) => ['aadhaar', 'income', 'marks', 'bank', 'bonafide', ...x];
+    const SCHEMES = [
+      {id: 'st-pre', g: 'mota', name: 'Pre-Matric Scholarship (ST)', cats: ['st', 'pvtg'], stages: ['9-10'], inc: 2.5, amount: '₹225/month (day scholar) or ₹525/month (hosteller), 10 months a year', desc: 'Monthly support for Scheduled Tribe students in Class 9–10 to reduce drop-outs.', note: 'Some older sources list a ₹2 lakh limit; the Ministry page says ₹2.5 lakh. Confirm on the portal.', docs: D('category', 'domicile'), url: NSP, info: 'https://www.myscheme.gov.in/schemes/pre-st'},
+      {id: 'st-post', g: 'mota', name: 'Post-Matric Scholarship (ST)', cats: ['st', 'pvtg'], stages: ['11-12', 'ug', 'pg', 'phd'], inc: 2.5, amount: 'Compulsory fees reimbursed + ₹230–₹1,200/month depending on course', desc: 'For ST students after Class 10, including technical and professional courses.', note: 'You cannot hold another scholarship for the same study.', docs: D('category', 'domicile'), url: NSP, info: 'https://tribal.nic.in/ScholarshiP.aspx'},
+      {id: 'st-top', g: 'mota', name: 'Top Class Education (ST)', cats: ['st', 'pvtg'], stages: ['ug', 'pg'], inc: 4.5, amount: 'Tuition and fees + living allowance', desc: 'For ST students admitted to notified institutions of excellence for study beyond Class 12.', note: 'Needs admission to a Ministry-notified institution. ₹4.5 lakh is the latest ceiling I could verify (2013 decision) — confirm the current limit.', docs: D('category'), url: NSP, info: 'https://tribal.nic.in/ScholarshiP.aspx'},
+      {id: 'nfst', g: 'mota', name: 'National Fellowship (NFST)', cats: ['st', 'pvtg'], stages: ['phd'], inc: null, amount: 'Fellowship comparable to UGC JRF/SRF + contingency and HRA', desc: 'Central fellowship for ST scholars pursuing M.Phil or PhD.', note: 'Selection runs through the UGC-NTA process. Confirm current criteria on the portal.', docs: D('category'), url: NSP, info: 'https://tribal.nic.in/ScholarshiP.aspx'},
+      {id: 'nos-st', g: 'mota', name: 'National Overseas Scholarship (ST)', cats: ['st', 'pvtg'], stages: ['ug', 'pg', 'phd'], inc: 6, amount: 'Tuition, travel and maintenance abroad (up to USD 15,400/yr for top-1000 QS universities, 2025-26 notice)', desc: 'Masters, PhD or Post-Doctoral study abroad — 20 awards a year (17 ST, 3 PVTG), with 30% reserved for women.', note: 'Bachelor-level courses abroad are not covered. Recent cycles ran mid-May to 30 June — confirm dates.', docs: D('category'), url: 'https://overseas.tribal.gov.in/'},
+      {id: 'sc-pre', g: 'sj', name: 'Pre-Matric Scholarship (SC)', cats: ['sc'], stages: ['9-10'], inc: 2.5, amount: 'Allowance as notified — see the official page', desc: 'For Scheduled Caste students in Class 9–10 in recognised schools. Available for one year at a time.', note: 'Awarded by the State/UT where you are domiciled.', docs: D('category', 'domicile'), url: NSP, info: 'https://myscheme.gov.in/schemes/pre-sc'},
+      {id: 'sc-post', g: 'sj', name: 'Post-Matric Scholarship (SC)', cats: ['sc'], stages: ['11-12', 'ug', 'pg', 'phd'], inc: 2.5, amount: 'Compulsory fees reimbursed + ₹230–₹1,200/month', desc: 'For SC students who have passed Class 10 or higher, for studies in India.', note: 'A holder cannot take any other scholarship or stipend at the same time.', docs: D('category', 'domicile'), url: NSP, info: 'https://www.myscheme.gov.in/schemes/pmssc'},
+      {id: 'sc-top', g: 'sj', name: 'Top Class Education (SC)', cats: ['sc'], stages: ['ug', 'pg'], inc: 8, amount: 'Full tuition (up to ₹2 lakh/yr in private institutes) + ₹3,000/month living + books + laptop up to ₹45,000', desc: 'For SC students in full-time courses at notified top institutions.', note: 'Needs admission to a notified institution. Not given to more than 2 siblings in a family.', docs: D('category'), url: NSP, info: 'https://myscheme.gov.in/schemes/tce-sc'},
+      {id: 'obc-pre', g: 'sj', name: 'PM-YASASVI Pre-Matric (OBC/EBC/DNT)', cats: ['obc'], stages: ['9-10'], inc: 2.5, amount: '₹4,000/year academic allowance', desc: 'For OBC, EBC and DNT students in Class 9–10 at government schools.', note: 'Confirm current rules on the portal.', docs: D('category', 'domicile'), url: NSP},
+      {id: 'obc-post', g: 'sj', name: 'PM-YASASVI Post-Matric (OBC/EBC/DNT)', cats: ['obc'], stages: ['11-12', 'ug', 'pg', 'phd'], inc: 2.5, amount: 'Maintenance and fee support — rates on NSP', desc: 'For OBC, EBC and DNT students in post-matric courses.', note: 'Additional criteria may apply — check the portal.', docs: D('category', 'domicile'), url: NSP},
+      {id: 'obc-top', g: 'sj', name: 'PM-YASASVI Top Class School (OBC/EBC/DNT)', cats: ['obc'], stages: ['9-10', '11-12'], inc: 2.5, amount: 'Up to ₹75,000/yr (Class 9–10) or ₹1.25 lakh/yr (Class 11–12)', desc: 'Covers tuition and hostel fees for meritorious students in top-class schools. At least 30% of slots are for girls.', note: 'You must study in a notified top-class school; selection is merit-based.', docs: D('category'), url: NSP, info: 'https://myscheme.gov.in/schemes/pm-yasasvitcseobcebcdnts'},
+      {id: 'mcm', g: 'mm', name: 'Merit-cum-Means Scholarship (Minorities)', min: true, stages: ['ug', 'pg'], inc: 2.5, marks: 50, amount: 'Course fee up to ₹20,000/yr + ₹1,000/month (hostel) or ₹500/month (day scholar)', desc: 'For students from notified minority communities in professional or technical courses.', note: 'Professional/technical courses only, admitted by merit or entrance test; not for distance mode; max 2 siblings per family.', docs: D(), url: NSP},
+      {id: 'dw-post', g: 'dw', name: 'Post-Matric Scholarship (Disabilities)', pwd: true, stages: ['11-12', 'ug', 'pg', 'phd'], inc: 2.5, amount: 'Fees + monthly maintenance + disability and book allowance — rates on the official page', desc: 'For students with benchmark disability of 40% or more, from Class 11 to postgraduate level.', note: 'Needs a UDID or certificate of 40%+ benchmark disability; cannot combine with another scholarship.', docs: D('disability'), url: NSP, info: 'https://depwd.gov.in/en/scholarship-post-matric/'},
+      {id: 'csss', g: 'edu', name: 'Central Sector Scholarship (College & University)', stages: ['ug', 'pg'], inc: 4.5, amount: '₹12,000/yr (undergraduate) · ₹20,000/yr (postgraduate)', desc: 'For meritorious students from families with income up to ₹4.5 lakh, open to every category.', note: 'You must be above the 80th percentile in your Class 12 board stream, in a regular full-time course, and not receiving another scholarship.', docs: D(), url: NSP, info: 'https://education.gov.in/node/255'},
+      {id: 'nmmss', g: 'edu', name: 'National Means-cum-Merit Scholarship', stages: ['1-8'], inc: 3.5, marks: 55, marksRes: 50, amount: '₹12,000/yr (₹1,000/month) for Class 9–12', desc: 'For Class 8 students in government, aided or local-body schools who clear the State selection test. Open to every category.', note: 'Not for KV, JNV or private school students. Marks needed in Class 7: 55% (50% for SC/ST). Your State runs the selection test.', docs: D(), url: NSP}
+    ];
+    const TS = [['saved', 'Saved'], ['applied', 'Applied'], ['verifying', 'Under verification'], ['sanctioned', 'Sanctioned'], ['paid', 'Paid'], ['action', 'Action needed']];
+    const BANKS = [['State Bank of India', 'SBIN'], ['Punjab National Bank', 'PUNB'], ['Bank of Baroda', 'BARB'], ['Canara Bank', 'CNRB'], ['Union Bank of India', 'UBIN'], ['Indian Bank', 'IDIB'], ['Bank of India', 'BKID'], ['India Post Payments Bank', 'IPOS'], ['HDFC Bank', 'HDFC'], ['ICICI Bank', 'ICIC'], ['Other bank', '']];
+
+    const S = {profile: null, bank: null, docs: [], track: {}};
+    let db, user, assets, sample, base, uid, filter = 'me', editBank = false; const openSet = new Set();
+    const use = n => {try {return window.claude ? window.claude.use(n).catch(() => null) : Promise.resolve(null)} catch (e) {return Promise.resolve(null)} };
+    function toast(m) {const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400)}
+
+    function ev(s, p) {
+      if (!p || !p.stage) return {st: 'unk', why: ['Add your details on the Home tab and this will update.']};
+      const f = [], u = [], c = p.category;
+      if (s.cats) {if (!c || c === 'skip') u.push('Pick a category on Home to check this (optional).'); else if (!(s.cats.includes(c) || (c === 'pvtg' && s.cats.includes('st')))) f.push('Open to ' + s.cats.map(x => CATS[x]).join(' / ') + ' students.')}
+      if (s.min) {if (p.minority === 'no') f.push('Open to students from notified minority communities.'); else if (p.minority !== 'yes') u.push('Say whether you belong to a notified minority community (optional).')}
+      if (s.pwd) {if (p.disability === 'no') f.push('Needs a certified benchmark disability of 40% or more.'); else if (p.disability !== 'yes') u.push('Say whether you have a certified disability (optional).')}
+      if (!s.stages.includes(p.stage)) f.push('Covers ' + s.stages.map(x => STAGES[x]).join(', ') + '. You selected ' + STAGES[p.stage] + '.');
+      if (s.inc != null) {if (p.income == null) u.push('Add family income to check the ₹' + s.inc + ' lakh limit.'); else if (p.income > s.inc) f.push('Family income limit is ₹' + s.inc + ' lakh a year; you entered ₹' + p.income + ' lakh.')}
+      if (s.marks != null) {const need = (['sc', 'st', 'pvtg'].includes(c) && s.marksRes != null) ? s.marksRes : s.marks; if (p.marks == null) u.push('Add your last exam % (this needs ' + need + '%).'); else if (p.marks < need) f.push('Needs at least ' + need + '% in the previous exam; you entered ' + p.marks + '%.')}
+      return f.length ? {st: 'no', why: f} : u.length ? {st: 'unk', why: u} : {st: 'yes', why: ['You meet every published criterion that can be checked here.']};
+    }
+    const LBL = {yes: 'Likely eligible', no: 'Not eligible', unk: 'Add details'};
+    const grpChip = g => `<span class="gc g-${GRP[g][1]}">${GRP[g][0]}</span>`;
+    const haveTypes = () => new Set(S.docs.map(d => d.type));
+
+    function renderHome() {
+      const p = S.profile;
+      $('hName').textContent = p && p.name ? 'Namaste, ' + p.name.split(' ')[0] : 'Namaste';
+      $('hSub').textContent = p && p.stage ? STAGES[p.stage] : 'Add your details to see schemes that fit you';
+      const r = SCHEMES.map(s => ({s, r: ev(s, p)}));
+      const y = r.filter(x => x.r.st === 'yes'), u = r.filter(x => x.r.st === 'unk');
+      $('stYes').textContent = p && p.stage ? y.length : '–'; $('stUnk').textContent = p && p.stage ? u.length : '–';
+      $('topMatches').innerHTML = y.length ? '<h2 class="h">Best matches</h2>' + y.slice(0, 3).map(x => `<div class="card t-g"><div class="sh">${grpChip(x.s.g)}</div><span class="sn">${esc(x.s.name)}</span><span class="amt">${esc(x.s.amount)}</span></div>`).join('') + '<button class="btn" data-go="schemes">See all matches</button>' : '';
+    }
+    function renderSchemes() {
+      const fs = [['me', 'For me'], ['all', 'All'], ['mota', 'Tribal'], ['sj', 'Social Justice'], ['mm', 'Minority'], ['edu', 'Education'], ['dw', 'Disability']];
+      $('filters').innerHTML = fs.map(([k, l]) => `<button class="fchip" data-f="${k}" aria-pressed="${filter === k}">${l}</button>`).join('');
+      const rk = {yes: 0, unk: 1, no: 2}, have = haveTypes();
+      const list = SCHEMES.map(s => ({s, r: ev(s, S.profile)})).filter(x => filter === 'all' || (filter === 'me' ? x.r.st !== 'no' : x.s.g === filter)).sort((a, b) => rk[a.r.st] - rk[b.r.st]);
+      if (!list.length) {$('schList').innerHTML = '<p class="empty">No schemes match right now. Try “All”, or search your State’s schemes from Home.</p>'; return }
+      $('schList').innerHTML = list.map(({s, r}) => {
+        const need = [...new Set(s.docs)], got = need.filter(t => have.has(t)), miss = need.filter(t => !have.has(t));
+        const tr = S.track[s.id];
+        const apply = r.st === 'yes' ? `<a class="official" href="${s.url}" target="_blank" rel="noopener noreferrer">Apply on official portal ↗</a>` : `<a class="ghost" href="${s.url}" target="_blank" rel="noopener noreferrer">Think this is wrong? Open official portal ↗</a>`;
+        return `<details class="sc" data-id="${s.id}" ${openSet.has(s.id) ? 'open' : ''}><summary><span class="sh">${grpChip(s.g)}<span class="ss st-${r.st}">${LBL[r.st]}</span></span><span class="sn">${esc(s.name)}</span><span class="amt">${esc(s.amount)}</span></summary>
+    <div class="sb"><p class="d">${esc(s.desc)}</p>
+    <ul class="why ${r.st === 'yes' ? 'ok' : r.st}">${r.why.map(w => `<li>${esc(w)}</li>`).join('')}</ul>
+    <p class="note"><b>Also check:</b> ${esc(s.note)}${s.inc != null ? ' · Income limit ₹' + s.inc + ' lakh/yr.' : ''}</p>
+    <div class="ready"><b>Documents ready: ${got.length}/${need.length}</b>${miss.length ? '<span class="small"> — missing: ' + miss.map(t => DOCT[t]).join(', ') + '</span>' : ''}<div class="bar"><i style="width:${Math.round(got.length / need.length * 100)}%"></i></div></div>
+    <div class="acts">${apply}<button class="btn sm" data-track="${s.id}">${tr ? 'Tracking · ' + TS.find(t => t[0] === tr.status)[1] : '＋ Track this'}</button><button class="btn sm" data-ask="${s.id}">Ask JAGO</button>${s.info ? `<a class="ghost" href="${s.info}" target="_blank" rel="noopener noreferrer">Official info ↗</a>` : ''}</div></div></details>`
+      }).join('');
+    }
+    function renderTrack() {
+      const ids = Object.keys(S.track).filter(id => SCHEMES.some(s => s.id === id));
+      const act = ids.filter(id => ['applied', 'verifying', 'sanctioned', 'paid'].includes(S.track[id].status)).length;
+      $('cautionBox').innerHTML = act >= 2 ? '<div class="banner" style="margin-bottom:12px">You’re tracking 2 or more active applications. Most central scholarships don’t allow holding two for the same course — read each scheme’s guidelines before continuing with both.</div>' : '';
+      if (!ids.length) {$('trkList').innerHTML = '<p class="empty">Nothing tracked yet. Open a scheme and tap “Track this”.</p>'; return }
+      $('trkList').innerHTML = ids.map(id => {
+        const s = SCHEMES.find(x => x.id === id), t = S.track[id], idx = TS.findIndex(x => x[0] === t.status);
+        return `<div class="card">${grpChip(s.g)}<span class="sn">${esc(s.name)}</span>
+    <div class="dots" aria-hidden="true">${TS.slice(0, 5).map((_, i) => `<i class="${idx >= 0 && idx < 5 && i <= idx ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="row" style="display:flex;gap:8px;align-items:center"><label class="sr" for="ts-${id}">Status for ${esc(s.name)}</label>
+    <select id="ts-${id}" class="btn" data-ts="${id}" style="flex:1;padding:8px 10px">${TS.map(([k, l]) => `<option value="${k}" ${k === t.status ? 'selected' : ''}>${l}</option>`).join('')}</select>
+    <button class="ib" data-untrack="${id}" aria-label="Stop tracking ${esc(s.name)}">Remove</button></div></div>`
+      }).join('');
+    }
+    function renderWallet() {
+      const kb = n => n ? Math.round(n / 1024) + ' KB' : '';
+      $('docList').innerHTML = S.docs.length ? S.docs.map(d => `<div class="doc"><div class="di"><p class="dn">${esc(d.name)}</p><p class="dm">${esc(DOCT[d.type] || 'Other')} · ${kb(d.size)}</p></div>${d.assetId ? `<a class="ghost" style="padding:5px 11px" href="/_blob/${esc(d.assetId)}" target="_blank" rel="noopener noreferrer">View</a>` : ''}<button class="ib" data-deldoc="${esc(d.id)}" aria-label="Remove ${esc(d.name)}">Delete</button></div>`).join('') : '<p class="empty">No documents yet.</p>';
+      const have = haveTypes();
+      $('docCheck').innerHTML = Object.keys(DOCT).filter(k => k !== 'other').map(k => `<span class="${have.has(k) ? 'ok' : ''}">${have.has(k) ? '✓ ' : ''}${DOCT[k]}</span>`).join('');
+      $('upLbl').style.display = assets ? '' : 'none';
+      const b = S.bank;
+      if (b && !editBank) {
+        $('bankCard').innerHTML = `<p style="font-weight:700;font-size:14px">${esc(b.bank)} · ••${esc(b.last4)}</p><p class="small">${esc(b.holder)} · ${esc(b.ifsc)}</p>
+    <div class="check"><span class="${b.own ? 'ok' : ''}">${b.own ? '✓ ' : ''}In my own name</span><span class="${b.seeded ? 'ok' : ''}">${b.seeded ? '✓ ' : ''}Aadhaar seeded</span></div>
+    ${b.seeded ? '' : '<p class="small" style="margin-top:10px">Scholarships are paid by DBT only to an Aadhaar-seeded account. <a href="https://myaadhaar.uidai.gov.in/bank-seeding-status" target="_blank" rel="noopener noreferrer">Check your status on UIDAI ↗</a></p>'}
+    <button class="btn sm" id="editBank" style="margin-top:10px">Edit</button>`; $('bForm').style.display = 'none';
+      } else {
+        $('bankCard').innerHTML = `<p class="small" style="line-height:1.55">Scholarships are paid by the government straight to the Aadhaar-seeded account you enter on the official portal. This app doesn’t connect to any bank or move money — it keeps your details ready and checks they’re DBT-ready. For safety it stores only the last 4 digits of your account number.</p>
+    <p class="small" style="margin-top:8px"><a href="https://myaadhaar.uidai.gov.in/bank-seeding-status" target="_blank" rel="noopener noreferrer">Check Aadhaar–bank seeding on UIDAI ↗</a></p>`; $('bForm').style.display = 'block';
+      }
+    }
+    const renderAll = () => {renderHome(); renderSchemes(); renderTrack(); renderWallet()};
+
+    function fillProfile() {const p = S.profile || {}; $('fName').value = p.name || ''; $('fStage').value = p.stage || ''; $('fInc').value = p.income ?? ''; $('fMarks').value = p.marks ?? ''; $('fCat').value = p.category || 'skip'; $('fMin').value = p.minority || 'skip'; $('fDis').value = p.disability || 'skip'}
+    function go(n) {document.querySelectorAll('.nb').forEach(b => b.setAttribute('aria-current', String(b.dataset.s === n))); document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === 's-' + n)); $('chatBar').classList.toggle('hidden', n !== 'chat'); window.scrollTo(0, 0)}
+
+    /* JAGO */
+    const hist = []; const FALL = 'I can’t reach my answering service right now. Open the Schemes tab, add your details on Home, and each scheme will show whether you likely qualify — with a button to the official portal.';
+    function bubble(t, w) {const d = document.createElement('div'); d.className = 'bubble ' + w; d.textContent = t; $('chatLog').insertBefore(d, $('qchips')); return d}
+    function prompt_(q) {
+      const sc = SCHEMES.map(s => `${s.id}: ${s.name} [${GRP[s.g][0]}] for ${s.cats ? s.cats.join('/') : s.min ? 'minorities' : s.pwd ? 'disability 40%+' : 'all'}; levels ${s.stages.join(',')}; income max ${s.inc ?? 'n/a'} lakh; ${s.amount}; note: ${s.note}; apply: ${s.url}`).join('\n');
+      const p = S.profile, pr = p ? `level ${p.stage}, income ${p.income ?? '?'} lakh, marks ${p.marks ?? '?'}%, category ${p.category || 'not shared'}, minority ${p.minority || 'not shared'}, disability ${p.disability || 'not shared'}` : 'not provided';
+      const m = SCHEMES.filter(s => ev(s, p).st === 'yes').map(s => s.name).join('; ') || 'none yet';
+      return `You are JAGO, a friendly, neutral assistant helping any Indian student find and apply for government scholarships. Use ONLY the scheme data below plus general knowledge of the NSP process. If unsure, say so and point to the official portal. Never promise eligibility, never ask for Aadhaar or bank account numbers, never favour or disfavour any community. Reply in the language the student writes in, in under 120 words, plain words.\n\nSCHEMES:\n${sc}\n\nSTUDENT PROFILE: ${pr}\nLIKELY MATCHES: ${m}\n\nCONVERSATION:\n${hist.slice(-6).map(h => h.r + ': ' + h.t).join('\n')}\nUser: ${q}\nJAGO:`
+    }
+    async function ask(q) {
+      go('chat'); $('qchips').style.display = 'none'; const pr = prompt_(q); bubble(q, 'user'); const b = bubble('…', 'bot'); hist.push({r: 'User', t: q});
+      if (!sample) {b.textContent = FALL; return }
+      try {const r = await sample(pr, {cache: false, onText: ({text}) => {b.textContent = text}}); b.textContent = r.text || FALL; hist.push({r: 'JAGO', t: b.textContent})}
+      catch (e) {b.textContent = e && e.code === 'not_granted' ? 'JAGO needs your permission to answer. Send your question again and allow it.' : FALL}
+      $('chatLog').lastElementChild.scrollIntoView({block: 'end'});
+    }
+
+    async function init() {
+      renderAll();
+      $('dType').innerHTML = Object.entries(DOCT).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+      $('bBank').innerHTML = BANKS.map(([n]) => `<option>${n}</option>`).join('');
+      $('qchips').innerHTML = ['Which scholarships can I get?', 'What documents do I need?', 'Can I apply for two schemes?', 'हिंदी में बताइए'].map(q => `<button class="qchip">${q}</button>`).join('');
+      [db, user, assets, sample] = await Promise.all([use('db'), use('user'), use('assets'), use('sample')]);
+      try {uid = user ? await user.id() : null} catch (e) {uid = null}
+      if (db && uid) {
+        try {
+          base = db.doc('data/users/' + uid + '/profile');
+          base.onSnapshot(s => {S.profile = s.exists ? s.data() : null; renderAll()}, () => { });
+          db.doc('data/users/' + uid + '/bank').onSnapshot(s => {S.bank = s.exists ? s.data() : null; renderWallet()}, () => { });
+          base.collection('documents').onSnapshot(s => {S.docs = s.docs.map(d => ({id: d.id, ...d.data()})); renderAll()}, () => { });
+          base.collection('tracker').onSnapshot(s => {S.track = {}; s.docs.forEach(d => S.track[d.id] = d.data()); renderAll()}, () => { });
+        } catch (e) {base = null}
+      }
+      if (!base) {const b = document.createElement('div'); b.className = 'banner'; b.textContent = 'Preview mode: sign in to Claude to save your details. Nothing is stored right now.'; $('s-home').prepend(b)}
+      renderAll();
+    }
+
+    /* events */
+    document.addEventListener('click', async e => {
+      const t = e.target.closest('button,summary'); if (!t) return;
+      if (t.dataset.s) go(t.dataset.s);
+      else if (t.dataset.go) go(t.dataset.go);
+      else if (t.dataset.f) {filter = t.dataset.f; renderSchemes()}
+      else if (t.dataset.ask) {const s = SCHEMES.find(x => x.id === t.dataset.ask); ask('Explain ' + s.name + ' to me and tell me how to apply.')}
+      else if (t.dataset.track) {
+        const id = t.dataset.track; if (S.track[id]) return go('track'); const rec = {status: 'saved', at: new Date().toISOString()};
+        if (base) {try {await base.collection('tracker').doc(id).set(rec)} catch (x) {return toast('Could not save')} } else {S.track[id] = rec; renderAll()} toast('Added to Track')
+      }
+      else if (t.dataset.untrack) {const id = t.dataset.untrack; if (base) {try {await base.collection('tracker').doc(id).delete()} catch (x) { } } else {delete S.track[id]; renderAll()} }
+      else if (t.dataset.deldoc) {
+        const d = S.docs.find(x => x.id === t.dataset.deldoc); if (!d) return;
+        if (base) {try {await base.collection('documents').doc(d.id).delete()} catch (x) {return toast('Could not delete')} } else {S.docs = S.docs.filter(x => x.id !== d.id); renderAll()}
+        if (d.assetId && assets) {try {await assets.delete(d.assetId)} catch (x) { } } toast('Document removed')
+      }
+      else if (t.id === 'editBtn') {const f = $('pForm'); const o = f.style.display !== 'none'; f.style.display = o ? 'none' : 'block'; if (!o) {fillProfile(); $('fName').focus()} }
+      else if (t.id === 'editBank') {editBank = true; const b = S.bank; $('bBank').value = b.bank; $('bHolder').value = b.holder; $('bIfsc').value = b.ifsc; $('bLast').value = b.last4; $('bOwn').checked = !!b.own; $('bSeed').checked = !!b.seeded; renderWallet()}
+      else if (t.id === 'zoomBtn') {const z = [1, 1.12, 1.25], i = (z.indexOf(+t.dataset.z || 1) + 1) % 3; t.dataset.z = z[i]; $('phone').style.zoom = z[i]; toast('Text size ' + ['normal', 'larger', 'largest'][i])}
+      else if (t.classList.contains('qchip')) ask(t.textContent);
+      else if (t.id === 'sendBtn') send();
+    });
+    document.addEventListener('toggle', e => {const d = e.target; if (d.matches && d.matches('details.sc')) {d.open ? openSet.add(d.dataset.id) : openSet.delete(d.dataset.id)} }, true);
+    document.addEventListener('change', async e => {
+      const t = e.target;
+      if (t.dataset && t.dataset.ts) {
+        const id = t.dataset.ts, rec = {...S.track[id], status: t.value, at: new Date().toISOString()};
+        if (base) {try {await base.collection('tracker').doc(id).set(rec)} catch (x) {return toast('Could not save')} } else {S.track[id] = rec; renderAll()} toast('Status updated')
+      }
+      if (t.id === 'fileIn') {
+        const f = t.files[0]; if (!f) return; const type = $('dType').value;
+        if (!assets) {t.value = ''; return toast('Uploads need edit access to this app')}
+        toast('Uploading…');
+        try {
+          const opt = f.type ? undefined : {type: /\.pdf$/i.test(f.name) ? 'application/pdf' : undefined}; const r = await assets.upload(f, opt);
+          const rec = {name: f.name, type, assetId: r.id, size: r.sizeBytes, at: new Date().toISOString()};
+          if (base) await base.collection('documents').add(rec); else {S.docs.push({id: 'l' + Date.now(), ...rec}); renderAll()}
+          toast('Uploaded as ' + DOCT[type])
+        } catch (x) {toast(x && x.code === 'too_large' ? 'File is too large' : 'Upload failed — try another file')}
+        t.value = ''
+      }
+    });
+    $('pForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const num = id => {const v = parseFloat($(id).value); return isNaN(v) ? null : v};
+      const p = {name: $('fName').value.trim() || 'Student', stage: $('fStage').value, income: num('fInc'), marks: num('fMarks'), category: $('fCat').value, minority: $('fMin').value, disability: $('fDis').value};
+      if (!p.stage) return toast('Please choose your education level');
+      if (p.income != null && p.income < 0 || p.marks != null && (p.marks < 0 || p.marks > 100)) return toast('Please check income and marks');
+      if (base) {try {await base.set(p)} catch (x) {return toast('Could not save — try again')} } else {S.profile = p; renderAll()}
+      $('pForm').style.display = 'none'; toast('Details saved');
+    });
+    $('bForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const bank = $('bBank').value, ifsc = $('bIfsc').value.trim().toUpperCase(), last4 = $('bLast').value.trim(), holder = $('bHolder').value.trim();
+      if (!holder) return toast('Enter the account holder name');
+      if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)) return toast('IFSC should look like SBIN0001234');
+      if (!/^\d{4}$/.test(last4)) return toast('Enter exactly 4 digits');
+      const pre = (BANKS.find(b => b[0] === bank) || [])[1];
+      if (pre && !ifsc.startsWith(pre)) return toast('This IFSC doesn’t start with ' + pre + ' — check the bank');
+      const rec = {bank, holder, ifsc, last4, own: $('bOwn').checked, seeded: $('bSeed').checked};
+      if (uid && db) {try {await db.doc('data/users/' + uid + '/bank').set(rec)} catch (x) {return toast('Could not save — try again')} } else S.bank = rec;
+      editBank = false; renderWallet(); toast('Bank details saved');
+    });
+    function send() {const v = $('chatIn').value.trim(); if (!v) return; $('chatIn').value = ''; ask(v)}
+    $('chatIn').addEventListener('keydown', e => {if (e.key === 'Enter') send()});
+    init();
+  </script>
+</body>
+
+</html>
